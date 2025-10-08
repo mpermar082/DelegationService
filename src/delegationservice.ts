@@ -3,23 +3,60 @@
  * Core DelegationService implementation
  */
 
+/**
+ * Configuration for DelegationService
+ * @interface DelegationServiceConfig
+ */
 export interface DelegationServiceConfig {
+    /**
+     * Enable verbose logging
+     */
     verbose?: boolean;
+    /**
+     * Timeout in milliseconds for operations
+     */
     timeout?: number;
+    /**
+     * Maximum number of retries for failed operations
+     */
     maxRetries?: number;
 }
 
+/**
+ * Result of a processed operation
+ * @interface ProcessResult
+ */
 export interface ProcessResult {
+    /**
+     * Whether the operation was successful
+     */
     success: boolean;
+    /**
+     * Data returned from the operation
+     */
     data?: any;
+    /**
+     * Message describing the operation result
+     */
     message: string;
+    /**
+     * Timestamp of when the operation was completed
+     */
     timestamp: Date;
 }
 
+/**
+ * DelegationService class
+ * @class DelegationService
+ */
 export class DelegationService {
     private config: DelegationServiceConfig;
     private processed: number = 0;
 
+    /**
+     * Constructor for DelegationService
+     * @param config Configuration for DelegationService
+     */
     constructor(config: DelegationServiceConfig = {}) {
         this.config = {
             verbose: false,
@@ -29,6 +66,11 @@ export class DelegationService {
         };
     }
 
+    /**
+     * Execute the main processing logic
+     * @async
+     * @returns {Promise<ProcessResult>} Result of the processing operation
+     */
     async execute(): Promise<ProcessResult> {
         const startTime = Date.now();
         
@@ -63,6 +105,11 @@ export class DelegationService {
         }
     }
 
+    /**
+     * Perform the core processing logic
+     * @async
+     * @returns {Promise<any>} Result of the core processing operation
+     */
     private async process(): Promise<any> {
         // Implement your core logic here
         await this.delay(100); // Simulate processing
@@ -76,14 +123,13 @@ export class DelegationService {
         };
     }
 
+    /**
+     * Simulate a delay in milliseconds
+     * @async
+     * @param ms Delay in milliseconds
+     * @returns {Promise<void>} A promise that resolves after the delay
+     */
     private delay(ms: number): Promise<void> {
         return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    getStatistics(): object {
-        return {
-            processed: this.processed,
-            config: this.config
-        };
     }
 }
